@@ -1,31 +1,37 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% comment %} for head title tags and helping us with SEO {% endcomment %}
-{% block title %}Guitar{% endblock  %}
+<h1 class="title pt-5">{{header}}</h1>
 
-{% block content %}
-
-<h1 class="title pt-5">Trending Guitars</h1>
+<form class="mb-5" method="get">
+  <div class="field has-addons">
+    <div class="control">
+      <!--  Our input will search by name of guitar  -->
+      <input class="input" type="text" name="name" placeholder="name" />
+    </div>
+    <div class="control">
+      <input class="button is-success" type="submit" value="Search" />
+    </div>
+  </div>
+  <!--  This anchor tag will redirect back to guitar list without a query param -->
+  <a class="button is-dark" href="{% url 'guitar_list' %}">Clear Search</a>
+  <a class="button is-dark" href="{% url 'guitar_create' %}">Add Guitar</a>
+</form>
 <div class="gallery">
-    {% for guitar in guitars %}
-<a href="">
-    <div class="card">
-    <div class="card-image">
-        <figure class="image is-square">
-        <img src="{{guitar.image}}" alt="{{guitar.name}}" />
-        </figure>
-    </div>
-    <div class="card-header">
-        <p class="card-header-title">{{guitar.name}}</p>
-    </div>
-    </div>
-</a>
-	{% empty %}
-<article class="message">
-    <div class="message-header">
-    <p>No Guitars Available</p>
-    </div>
-</article>
-{% endfor %}
+  {% for guitar in guitars %}
+  <!-- Here we are changing the href of the a tag to use the url DTL -->
+    <a href="{% url 'guitar_detail' guitar.pk %}">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-square">
+            <img src="{{guitar.img}}" alt="{{guitar.name}}" />
+          </figure>
+        </div>
+        <div class="card-header">
+          <p class="card-header-title">{{guitar.name}}</p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
 </div>
+
 {% endblock %}
